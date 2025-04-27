@@ -17,7 +17,11 @@ const username = process.env.MONGO_USERNAME; // Use environment variable for use
 const url = `mongodb+srv://${username}:${password}@cluster0.i2hab2t.mongodb.net/contact_us?retryWrites=true&w=majority`;
 // Connect to MongoDB
 // mongoose.connect('mongodb://localhost:27017/contact_us')
-mongoose.connect(url)
+mongoose.connect(url,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000,
+})
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -25,7 +29,8 @@ mongoose.connect(url)
     console.error('MongoDB connection error:', err);
   });
 
-// view engine setup
+mongoose.set('debug', true);
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug'); 
 
